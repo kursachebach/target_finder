@@ -1,0 +1,24 @@
+#!/bin/bash
+
+targets_path=$1
+
+split_filename () {
+    local IFS='.'
+    echo ${1}
+}
+
+# List all files in diretory sorted by date. One filename by line
+#ls -t1 $1
+declare -A targets
+for filename in $(ls -t1 "${targets_path}"); do
+    filename_separated=$(split_filename ${filename})
+    fileparts=(${filename_separated})
+    target_id=${fileparts[2]}
+    if [[ -z "${targets[${target_id}]}" ]]; then
+        targets[${target_id}]=${filename}
+    fi
+done
+
+for target_id in "${!targets[@]}"; do
+    echo "${targets[${target_id}]}"
+done
