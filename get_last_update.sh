@@ -1,6 +1,7 @@
 #!/bin/bash
 
-targets_path=${1}
+#targets_path=${1}
+targets_path=/tmp/GenTargets/Targets/
 max_target_count=${2:-30}
 
 split_filename () {

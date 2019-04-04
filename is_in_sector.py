@@ -12,7 +12,7 @@ def is_in_sector_angle(point_angle, sector_start, sweep):
     #print('Sector start:', sector_start)
     #print('Sweep:', sweep)
     #print('Angle of point:', point_angle)
-    if point_angle < sector_start:
+    while point_angle < sector_start:
         point_angle += 360
         #print('New angle of point', point_angle)
     return point_angle <= sector_start + sweep
