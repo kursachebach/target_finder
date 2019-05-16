@@ -1,0 +1,89 @@
+define is_in_sector_angle(point_angle, sector_start, sweep) {
+    while (point_angle < sector_start) {
+        point_angle += 360;
+    }
+    return point_angle <= sector_start + sweep;
+}
+    
+define sgn(x) {
+        if (x == 0) {
+                return(0);
+        } else if (x < 0) {
+                return(-1);
+        } else if (x > 0) {
+                return(1);
+        }
+}
+
+define abs(x) {
+        if (x < 0) {
+                return(-1 * x);
+        } else {
+                return(x);
+        }
+}
+
+define atan2(y, x) {
+        auto pi, fi;
+
+        pi = 4 * a(1);
+
+        if (y == 0) {
+                if (x > 0) {
+                        return(0);
+                } else if (x == 0) {
+                        print "undefined\n";
+                        halt;
+                } else if (x < 0) {
+                        return(pi);
+                }
+        }
+
+        fi = a(abs(y/x));
+
+        if (x > 0) {
+                return(fi * sgn(y));
+        } else if (x == 0) {
+                return(pi * sgn(y) / 2);
+        } else if (x < 0) {
+                return((pi - fi) * sgn(y));
+        }
+}
+
+define is_in_sector(point_x, point_y, radius, sector_start, sweep) {
+	auto pi, point_angle;
+
+	pi = 4 * a(1);
+	
+    point_angle = atan2(point_x, point_y) / pi * 180;
+    if (is_in_sector_angle(point_angle, sector_start, sweep) == 0) {
+        return 0;
+	}
+    return point_x ^ 2 + point_y ^ 2 <= radius ^ 2;
+}
+
+
+define is_in_station_fov(target_x, target_y, station_x, station_y, alpha, gamma, radius) {
+	point_x = target_x - station_x;
+	point_y = target_y - station_y;
+    sector_start = alpha - gamma / 2
+    return is_in_sector(point_x, point_y, radius, sector_start, gamma)
+}
+
+define integer_part(x) {
+	# a local to save the value of scale
+	auto old_scale	
+	# save the old scale, and set scale to 0
+	old_scale = scale; scale = 0
+	# divide by 1 to truncate the number
+	x /= 1
+	# restore the old scale
+	scale = old_scale
+	return (x)
+}
+
+define get_target_velocity_and_type(x0, y0, x1, y1) {
+    vel_x = abs(x0 - x1);
+
+    return integer_part(vel_x)
+}
