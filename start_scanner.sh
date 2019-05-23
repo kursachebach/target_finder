@@ -85,25 +85,22 @@ while ((++iteration)); do
         fi
 
         station_type=${station_id:0:3}
-        if [ $station_type == 'РЛС' ]; then
-            if [ $target_type == 'block']; then
-                echo $(date) СТАНЦИЯ: $station_id ОБНАРУЖЕНА ЦЕЛЬ: ID:$target_id $target_name >>"$log_file"
+        if [[ $station_type == 'РЛС' ]]; then
+            if [[ $target_type == 'block' ]]; then
+                echo $(date) СТАНЦИЯ: $station_id ОБНАРУЖЕНА ЦЕЛЬ: ID:$target_id $target_name \($type_name\) >>"$log_file"
             fi
-        elif [ $station_type == 'зрд' ]; then
-            if [ $target_type == 'plane' -o $target_type == 'rocket']; then
-                echo $(date) СТАНЦИЯ: $station_id ОБНАРУЖЕНА ЦЕЛЬ: ID:$target_id $target_name УНИЧТОЖЕНИЕ ЦЕЛИ >>"$log_file"
+        elif [[ $station_type == 'зрд' ]]; then
+            if [[ $target_type == 'plane' ]] || [[ $target_type == 'rocket' ]]; then
+                echo $(date) СТАНЦИЯ: $station_id ОБНАРУЖЕНА ЦЕЛЬ: ID:$target_id $target_name \($type_name\) УНИЧТОЖЕНИЕ ЦЕЛИ >>"$log_file"
                 touch "/tmp/GenTargets/Destroy/"${target_id}
             fi
-        elif [ $station_type == 'СПР' ]; then
-            if [ $target_type == 'block']; then
-                echo $(date) СТАНЦИЯ: $station_id ОБНАРУЖЕНА ЦЕЛЬ: ID:$target_id $target_name УНИЧТОЖЕНИЕ ЦЕЛИ >>"$log_file"
+        elif [[ $station_type == 'СПР' ]]; then
+            if [[ $target_type == 'block' ]]; then
+                echo $(date) СТАНЦИЯ: $station_id ОБНАРУЖЕНА ЦЕЛЬ: ID:$target_id $target_name \($type_name\) УНИЧТОЖЕНИЕ ЦЕЛИ >>"$log_file"
                 touch "/tmp/GenTargets/Destroy/"${target_id}
             fi
         fi
 
-
-        echo $(date) $station_id $target_id $target_type >>"$log_file"
-        touch "/tmp/GenTargets/Destroy/"${target_id}
     done
     unset station_target_map 
     sleep 1
